@@ -99,12 +99,21 @@ def build_graph():
 
 def prompt_human(payload: dict) -> dict:
     console.print(Panel.fit(
-        f"Confidence: {payload['confidence']:.0%}\n{payload['confidence_reasoning']}\n\n{payload['summary']}",
+        f"[bold]Confidence:[/bold] {payload['confidence']:.0%}\n"
+        f"[dim]{payload['confidence_reasoning']}[/dim]\n\n"
+        f"[bold]Summary:[/bold] {payload['summary']}",
         title="Approval request",
+        border_style="green",
     ))
+    for c in payload.get("comments", []):
+        console.print(f"  [{c['severity']}] {c['file']}:{c.get('line') or '?'} — {c['body']}")
+    if payload.get("diff_preview"):
+        console.print("\n[dim]--- diff preview ---[/dim]")
+        console.print(payload["diff_preview"])
+
     choice = ""
     while choice not in {"approve", "reject", "edit"}:
-        choice = console.input("Choice (approve/reject/edit)? ").strip().lower()
+        choice = console.input("\n[bold]Choice (approve/reject/edit)?[/bold] ").strip().lower()
     feedback = console.input("Feedback: ").strip() if choice != "approve" else ""
     return {"choice": choice, "feedback": feedback}
 
