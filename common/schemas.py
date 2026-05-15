@@ -14,7 +14,7 @@ HumanChoice = Literal["approve", "reject", "edit"]
 
 
 # Confidence thresholds
-AUTO_APPROVE_THRESHOLD = 0.73   # >= 73% → no human, agent commits the comment directly
+AUTO_APPROVE_THRESHOLD = 0.9   # >= 73% → no human, agent commits the comment directly
 ESCALATE_THRESHOLD = 0.58       # < 58% → escalate: agent asks the reviewer specific questions
 # 58–72% inclusive → human approval flow (reviewer clicks Approve / Reject / Edit)
 
